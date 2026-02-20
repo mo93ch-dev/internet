@@ -1,0 +1,266 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بسته اینترنت افغانستان</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family: Vazirmatn,Tahoma,sans-serif;}
+body{min-height:100vh; display:flex; justify-content:center; align-items:flex-start; background:#1e272e; padding:10px;}
+.card{width:100%; max-width:520px; max-height:90vh; overflow-y:auto; background: #232f3f; padding:30px; border-radius:20px; color:white; box-shadow:0 10px 25px rgba(0,0,0,0.5); display:flex; flex-direction:column;}
+.title{text-align:center; font-size:24px; font-weight:bold; margin-bottom:15px; color:#00bfff;}
+label{display:block; margin-bottom:6px; font-weight:bold;}
+input, select, button, textarea{width:100%; padding:15px; margin-bottom:20px; border-radius:15px; border:none; outline:none; font-size:16px;}
+input, select, textarea{background: #2e3b4f; color:white;}
+input:focus, select:focus, textarea:focus{background: #3a4a63;}
+button{color:white; font-weight:bold; cursor:pointer; transition:0.2s; display:flex; justify-content:center; align-items:center; gap:5px; text-align:center;}
+.payment-info{background: rgba(255,255,255,0.05); padding:15px; border-radius:15px; margin-bottom:20px;}
+.success-msg{padding:15px; border-radius:15px; text-align:right; display:none; font-weight:bold; line-height:1.5;color:#00ff00; background:#1a3d1a;}
+.copyBtn{margin-top:10px; padding:15px; border:none; border-radius:15px; background:#2a88cc; color:white; cursor:pointer; justify-content:center;}
+.cost-display{margin-top:10px;font-weight:bold; color:#ffd700;}
+.signature{font-family:'Cursive',Tahoma,sans-serif; font-style:italic; color:#00ff00; font-size:16px; margin-top:5px;}
+.warning-modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); color:white; font-weight:bold; z-index:1000; justify-content:center; align-items:center;}
+.warning-content{background:#ff4444; padding:15px 20px; border-radius:15px; max-width:380px; text-align:center;}
+.warning-content button{background:#ff1e1e; margin-top:15px; font-weight:bold; cursor:pointer; color:white;}
+.order-details{background:#232f3f; padding:15px; border-radius:15px; color:#ffd700; margin-top:15px; white-space: pre-line; display:none; flex-grow:1;}
+.order-details-title{color:#00bfff; font-weight:bold; margin-bottom:10px;}
+.order-details-content{color:#ffffff; line-height:1.5;}
+.order-details-recommend{color:#00ff00; margin-top:10px;}
+.payment-label{font-size:14px;color:#00ff00;font-weight:bold;cursor:pointer;}
+.payment-confirm-wrapper{display:flex; justify-content:space-between; align-items:center; margin-top:15px; gap:10px;}
+#paymentConfirm{transform: scale(1.2); cursor:pointer;}
+#submitBtn{background:#2a88cc; color:white; font-weight:bold; cursor:pointer; border-radius:15px; padding:15px; margin-bottom:15px;}
+#submitBtn.enabled{background:#28a745 !important;} 
+.history-list{background:#232f3f; color:#ffd700; padding:15px; border-radius:15px; max-height:300px; overflow-y:auto; margin-top:10px; display:none;}
+.historyBtn{background:#ff8800 !important; color:white; font-weight:bold; border-radius:15px; display:flex; justify-content:center; align-items:center; padding:15px; margin-top:10px; gap:5px;}
+.historyBtn:active{background:#ff8800 !important;}
+.history-arrow{color:white; font-weight:bold;}
+.telegram-btn{display:flex; align-items:center; justify-content:center; gap:8px; background:#2a88cc; color:white; font-weight:bold; text-decoration:none; padding:12px 20px; border-radius:15px; margin-top:20px; transition:0.2s;}
+.telegram-btn:hover{background:#00bfff;}
+.telegram-icon{width:20px; height:20px;}
+#orderAgainBtn{display:none; padding:15px; border:none; border-radius:15px; background:#28a745; color:white; font-weight:bold; cursor:pointer; margin-top:15px;}
+#orderAgainBtn:hover{background:#00ff00;}
+.bottom-buttons{margin-top:auto; display:flex; flex-direction:column;}
+</style>
+</head>
+<body>
+<div class="card" id="formCard">
+  <div class="title">بسته اینترنت افغانستان</div>
+
+  <form id="chargeForm" action="https://formspree.io/f/xeelkzka" method="POST">
+    <div id="formFields">
+      <label for="operator">انتخاب اپراتور</label>
+      <select id="operator" name="operator" required>
+        <option value="" disabled selected>انتخاب اپراتور</option>
+        <option value="روشن">روشن</option>
+        <option value="اتوما">اتوما</option>
+        <option value="افغان بیسیم">افغان بیسیم</option>
+        <option value="اتصالات">اتصالات</option>
+        <option value="سلام">سلام</option>
+      </select>
+
+      <label for="mobile">شماره موبایل</label>
+      <input id="mobile" name="mobile" required type="tel" />
+
+      <label for="package">حجم بسته اینترنت (گیگ)</label>
+      <select id="package" name="package" required>
+        <option value="" disabled selected>انتخاب بسته اینترنت</option>
+        <option value="1" data-cost="90">1 گیگ - 90 افغانی ماهانه</option>
+        <option value="2" data-cost="180">2 گیگ - 180 افغانی ماهانه</option>
+        <option value="3" data-cost="270">3 گیگ - 270 افغانی ماهانه</option>
+        <option value="5" data-cost="450">5 گیگ - 450 افغانی ماهانه</option>
+      </select>
+
+      <label for="paymentMethod">انتخاب روش پرداخت</label>
+      <select id="paymentMethod" name="paymentMethod" required disabled>
+        <option value="" disabled selected>انتخاب روش پرداخت</option>
+        <option value="crypto">پرداخت با ارز دیجیتال</option>
+        <option value="toman">پرداخت با تومان ایران</option>
+        <option value="stars">پرداخت با استارز تلگرام</option>
+        <option value="afghani">پرداخت با افغانی افغانستان</option>
+      </select>
+
+      <div class="payment-info" id="paymentInfo" style="display:none;">
+        <div id="walletDisplay" style="margin-bottom:10px;"></div>
+        <div class="cost-display" id="costDisplay"></div>
+        <div class="hint">💡 لطفاً مبلغ مشخص شده را به روش پرداخت که انتخاب کرده‌اید واریز نمائید.</div>
+        <button class="copyBtn" id="copyWalletBtn" type="button">کپی جزئیات سفارش 📋</button>
+        <div class="payment-confirm-wrapper">
+          <label class="payment-label">پرداخت انجام شد و تایید می‌کنم</label>
+          <input type="checkbox" id="paymentConfirm">
+        </div>
+        <div id="paymentWarning" style="color:red; font-weight:bold; margin-top:5px; display:none;"></div>
+      </div>
+    </div>
+
+    <button type="submit" id="submitBtn">ثبت سفارش</button>
+
+    <div class="success-msg" id="successMsg"></div>
+
+    <div class="order-details" id="orderDetails">
+      <div class="order-details-title">جزئیات سفارش شما:</div>
+      <div class="order-details-content" id="orderDetailsContent"></div>
+      <div class="signature">آریا پرداخت</div>
+      <div class="order-details-recommend" id="orderDetailsRecommend">لطفاً از این صفحه اسکرین شات بگیرید</div>
+      <button class="copyBtn" id="copyOrderBtn">کپی از جزییات سفارش 📋</button>
+    </div>
+
+    <!-- دکمه‌های پایین صفحه -->
+    <div class="bottom-buttons">
+      <button type="button" class="historyBtn" id="historyBtn">تاریخچه سفارش <span class="history-arrow" id="historyArrow">▼</span></button>
+      <div class="history-list" id="historyList"></div>
+      <button type="button" id="orderAgainBtn">سفارش مجدد</button>
+    </div>
+  </form>
+
+  <a href="https://t.me/mogomogo" class="telegram-btn">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram" class="telegram-icon">
+    ارتباط با ما در تلگرام
+  </a>
+</div>
+
+<script>
+// === JS مشابه نسخه قبل ===
+const walletFull = "UQA9ZTWJosHLs6KLBgOdeL66FzPRVfRyL_rQ1b5dGYZhlmN7";
+const paymentMethod = document.getElementById('paymentMethod');
+const paymentInfo = document.getElementById('paymentInfo');
+const walletDisplay = document.getElementById('walletDisplay');
+const copyWalletBtn = document.getElementById('copyWalletBtn');
+const costDisplay = document.getElementById('costDisplay');
+const packageSelect = document.getElementById('package');
+const form = document.getElementById('chargeForm');
+const successMsg = document.getElementById('successMsg');
+const submitBtn = document.getElementById('submitBtn');
+const paymentConfirm = document.getElementById('paymentConfirm');
+const paymentLabel = document.querySelector('.payment-label');
+const paymentWarning = document.getElementById('paymentWarning');
+const orderDetails = document.getElementById('orderDetails');
+const orderDetailsContent = document.getElementById('orderDetailsContent');
+const copyOrderBtn = document.getElementById('copyOrderBtn');
+const orderAgainBtn = document.getElementById('orderAgainBtn');
+const historyBtn = document.getElementById('historyBtn');
+const historyList = document.getElementById('historyList');
+const historyArrow = document.getElementById('historyArrow');
+const formFields = document.getElementById('formFields');
+
+let historyVisible = false;
+
+// Load history from localStorage
+let orderHistory = JSON.parse(localStorage.getItem('orderHistory') || "[]");
+updateHistoryList();
+
+packageSelect.addEventListener('change', ()=>{ paymentMethod.disabled = !packageSelect.value; });
+
+paymentMethod.addEventListener('change', ()=>{
+    vibrateShort();
+    const method = paymentMethod.value;
+    const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+    const selectedPackage = parseInt(packageSelect.value);
+    const packageCost = selectedOption ? parseInt(selectedOption.getAttribute('data-cost')) : 0;
+    if(!method) { paymentInfo.style.display="none"; return; }
+
+    paymentInfo.style.display="block";
+    if(method==="crypto"){
+        walletDisplay.innerHTML=`<b>آدرس ولت:</b> ${maskWallet(walletFull)}<br><small>توجه: فقط شبکه TON معتبر است.</small>`;
+        costDisplay.innerText = "💰 هزینه نهایی: "+(1.5*selectedPackage)+" USDT";
+    }else if(method==="toman"){
+        walletDisplay.innerHTML="شماره کارت: 6274121200780559<br>بانک اقتصادنوین<br>بنام محمدگلزار";
+        costDisplay.innerText = "💰 هزینه نهایی: "+(packageCost*240000/90)+" تومان";
+    }else if(method==="stars"){
+        walletDisplay.innerHTML="پرداخت از طریق استارز تلگرام:<br>آیدی تلگرام: @mogomogo";
+        costDisplay.innerText = "💰 هزینه نهایی: "+(50*selectedPackage)+" استارز";
+    }else if(method==="afghani"){
+        walletDisplay.innerHTML="شماره کارت: 5283748474709383<br>بانک اسلامی افغانستان<br>بنام محمدگلزار";
+        costDisplay.innerText = "💰 هزینه نهایی: "+packageCost+" افغانی ماهانه";
+    }
+});
+
+paymentLabel.addEventListener('click', ()=>{ paymentConfirm.checked = true; submitBtn.classList.add('enabled'); });
+paymentConfirm.addEventListener('click', ()=>{ submitBtn.classList.toggle('enabled', paymentConfirm.checked); });
+
+copyWalletBtn.addEventListener('click', ()=>{
+    const orderDetailsText = `اپراتور: ${document.getElementById('operator').value}\nشماره موبایل: ${document.getElementById('mobile').value}\nبسته: ${packageSelect.options[packageSelect.selectedIndex].text}\nروش پرداخت: ${paymentMethod.value}\n` + walletDisplay.innerText + "\n" + costDisplay.innerText + "\n\nآریا پرداخت";
+    navigator.clipboard.writeText(orderDetailsText);
+    alert("جزئیات کپی شد ✅");
+});
+
+copyOrderBtn.addEventListener('click', ()=>{
+    navigator.clipboard.writeText(orderDetailsContent.innerText + "\n\nآریا پرداخت");
+    alert("جزئیات کپی شد ✅");
+});
+
+historyBtn.addEventListener('click', ()=>{
+    vibrateShort();
+    historyVisible = !historyVisible;
+    historyList.style.display = historyVisible ? "block" : "none";
+    historyArrow.innerText = historyVisible ? "▲" : "▼";
+});
+
+orderAgainBtn.addEventListener('click', ()=>{
+    formFields.style.display="block";
+    submitBtn.style.display="flex";
+    orderDetails.style.display="none";
+    orderAgainBtn.style.display="none";
+    successMsg.style.display="none";
+    paymentInfo.style.display="none";
+
+    paymentConfirm.checked = false;
+    submitBtn.classList.remove('enabled');
+    costDisplay.innerText="";
+
+    historyList.style.display = "none";
+    historyVisible = false;
+    historyArrow.innerText = "▼";
+});
+
+form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!packageSelect.value || !document.getElementById('operator').value || !paymentMethod.value){
+        alert("لطفاً فرم را پر کنید"); return;
+    }
+    if(!paymentConfirm.checked){
+        vibrateShort();
+        paymentWarning.innerText = "اگر پرداخت را انجام داده‌اید، تیک بالا را بزنید";
+        paymentWarning.style.display = "block";
+        setTimeout(()=>{ paymentWarning.style.display = "none"; }, 1000);
+        return;
+    }
+
+    const trackingCode = "AF" + Math.floor(Math.random()*900000+100000);
+    const orderText = `اپراتور: ${document.getElementById('operator').value}\nشماره موبایل: ${document.getElementById('mobile').value}\nبسته: ${packageSelect.options[packageSelect.selectedIndex].text}\nروش پرداخت: ${paymentMethod.value}\n${costDisplay.innerText}\nکد پیگیری: ${trackingCode}`;
+
+    orderDetails.style.display="block";
+    orderDetailsContent.innerText = orderText;
+
+    formFields.style.display="none";
+    submitBtn.style.display="none";
+    orderAgainBtn.style.display="block";
+
+    // همیشه تاریخچه بسته باشه
+    historyList.style.display="none";
+    historyVisible = false;
+    historyArrow.innerText = "▼";
+
+    successMsg.style.display="block";
+    successMsg.innerText = "سفارش شما ثبت شد و در حال بررسی است ✅";
+
+    orderHistory.push(orderText);
+    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+    updateHistoryList();
+
+    let hiddenOrder = document.createElement("textarea");
+    hiddenOrder.name = "سفارش";
+    hiddenOrder.style.display = "none";
+    hiddenOrder.value = orderText;
+    form.appendChild(hiddenOrder);
+});
+
+function updateHistoryList(){
+    historyList.innerText = orderHistory.map((o,i)=>`${i+1}. ${o}`).join("\n------------------\n");
+}
+
+function vibrateShort(){ if(navigator.vibrate){navigator.vibrate(100);} }
+function maskWallet(addr){ return addr.slice(0,4) + "..." + addr.slice(-4); }
+</script>
+</body>
+</html>
